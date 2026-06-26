@@ -233,24 +233,30 @@ const AddEditFriend = () => {
       )}
 
       <Card>
-        {/* Tabs */}
+        {/* Tabs — Tab must be DIRECT children of Tabs (no Fragment wrapper).
+              React.Children.map treats Fragments as one opaque child, breaking value matching. */}
         <Box sx={{ borderBottom: 1, borderColor: 'divider' }}>
           <Tabs value={tab} onChange={(_, v) => setTab(v)} variant="scrollable" scrollButtons="auto">
-            {isMobile ? (
-              <>
-                <Tab label="Info" />
-                <Tab label="Spouse" />
-                <Tab label="Children" />
-                <Tab label="Parents" />
-              </>
-            ) : (
-              <>
-                <Tab icon={<MdPerson />} iconPosition="start" label="Personal Info" />
-                <Tab icon={<FaRing />} iconPosition="start" label="Spouse & Anniversary" />
-                <Tab icon={<MdFamilyRestroom />} iconPosition="start" label="Children" />
-                <Tab icon={<MdFamilyRestroom />} iconPosition="start" label="Parents" />
-              </>
-            )}
+            <Tab
+              label={isMobile ? 'Info' : 'Personal Info'}
+              icon={isMobile ? null : <MdPerson />}
+              iconPosition="start"
+            />
+            <Tab
+              label={isMobile ? 'Spouse' : 'Spouse & Anniversary'}
+              icon={isMobile ? null : <FaRing />}
+              iconPosition="start"
+            />
+            <Tab
+              label="Children"
+              icon={isMobile ? null : <MdFamilyRestroom />}
+              iconPosition="start"
+            />
+            <Tab
+              label="Parents"
+              icon={isMobile ? null : <MdFamilyRestroom />}
+              iconPosition="start"
+            />
           </Tabs>
         </Box>
 
