@@ -33,11 +33,15 @@ const spouseSchema = new mongoose.Schema({
   weddingAnniversary: { type: Date },
   occupation: { type: String, trim: true },
   mobile: { type: String, trim: true },
+  // validate: skip when empty — match rejects '' which is a valid "no email" state
   email: {
     type: String,
     trim: true,
     lowercase: true,
-    match: [/^\S+@\S+\.\S+$/, 'Invalid spouse email'],
+    validate: {
+      validator: (v) => !v || /^\S+@\S+\.\S+$/.test(v),
+      message: 'Invalid spouse email format',
+    },
   },
 });
 
@@ -77,12 +81,16 @@ const friendSchema = new mongoose.Schema(
       default: 'prefer_not_to_say',
     },
     dateOfBirth: { type: Date },
+    // validate: skip when empty — match rejects '' which is a valid "no email" state
     email: {
       type: String,
       trim: true,
       lowercase: true,
-      match: [/^\S+@\S+\.\S+$/, 'Invalid email format'],
       default: '',
+      validate: {
+        validator: (v) => !v || /^\S+@\S+\.\S+$/.test(v),
+        message: 'Invalid email format',
+      },
     },
     mobile: { type: String, trim: true, default: '' },
     whatsapp: { type: String, trim: true, default: '' },
